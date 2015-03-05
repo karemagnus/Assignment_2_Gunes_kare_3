@@ -10,7 +10,7 @@ final int NBR_CREATURES = 2;
 
 Physics physics;
 Attractor attractor;
-Thingamajiggy t;
+Thingiemajiggy t;
 
 Arrival arrival;
 
@@ -44,7 +44,7 @@ void setup() {
     creatures.add(c);
     physics.add(c);
   }
-  t = new Thingamajiggy(width/2, height/2, 50);
+  t = new Thingiemajiggy(width/2, height/2, 50);
   physics.add(t);
   t.behaviors().add(arrival);
   
@@ -58,7 +58,7 @@ void draw() {
   noFill();
   stroke(255,0,0);
   attractor.position().set(t.position().x, t.position().y);
-  println(attractor.position().x + ":" + attractor.position().y + " " + t.position().x + ":" + t.position().y);
+  println(attractor.position().x + ":" + attractor.position().y + " thingie: " + t.centerX + ":" + t.centerY);
   ellipse(attractor.position().x, attractor.position().y, attractor.radius(), attractor.radius());  
 
   for (int i = 0; i < creatures.size (); i++) {
@@ -66,8 +66,8 @@ void draw() {
     c.display();
   }
 
-  //t.display(); // this call translates position for some reason
-  t.drawShape();
+  t.display(); // this call translates position for some reason
+  //t.drawShape();
   
   // draw arrival
   stroke(255, 255, 0);
