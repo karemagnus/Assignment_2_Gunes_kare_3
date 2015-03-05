@@ -42,13 +42,13 @@ void setup() {
 
 void draw() {
 
-  attractor.position().set(mouseX, mouseY);
+  attractor.position().set(t.position().x, t.position().y);
 
   physics.step(1.0 / frameRate);
 
-  //  background(23, 68, 250);
+  background(23, 68, 250);
   stroke(255);
-  noFill();
+  //noFill();
 
   for (int i = 0; i < creatures.size (); i++) {
     Creature c = creatures.get(i);
