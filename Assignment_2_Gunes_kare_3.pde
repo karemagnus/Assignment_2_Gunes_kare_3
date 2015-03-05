@@ -1,6 +1,7 @@
 import teilchen.Physics;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
+import teilchen.behavior.Arrival;
 
 final int CANVAS_WIDTH = 500;
 final int CANVAS_HEIGHT = 500;
@@ -9,9 +10,11 @@ final int NBR_CREATURES = 2;
 
 Physics physics;
 Attractor attractor;
-Creature t;
+Thingamajiggy t;
 
-ArrayList<Creature> creatures = new ArrayList<Creature>();
+Arrival arrival;
+
+ArrayList<Blobs> creatures = new ArrayList<Blobs>();
 
 void setup() {  
   size(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -27,38 +30,56 @@ void setup() {
 
   // create attaractor
   attractor = new Attractor();
-  attractor.radius(500);
+  attractor.radius(300);
   attractor.strength(100);
-  physics.add(attractor);
+  //physics.add(attractor);
 
-  Creature c;
+  arrival = new Arrival();
+  arrival.breakforce(100);
+  arrival.breakradius(10);
+  arrival.position().set((int)width/2, (int)height/2);
+
   for (int i = 0; i < NBR_CREATURES; i++) {
-    c = new Blobs((int)random(width), (int)random(height), 20);
+    Blobs c = new Blobs((int)random(width), (int)random(height), 20);
     creatures.add(c);
     physics.add(c);
   }
   t = new Thingamajiggy(width/2, height/2, 50);
+  physics.add(t);
+  t.behaviors().add(arrival);
+  
 }
 
 void draw() {
 
-  attractor.position().set(t.position().x, t.position().y);
-
   physics.step(1.0 / frameRate);
-
   background(23, 68, 250);
-  stroke(255);
-  //noFill();
+  
+  noFill();
+  stroke(255,0,0);
+  attractor.position().set(t.position().x, t.position().y);
+  println(attractor.position().x + ":" + attractor.position().y + " " + t.position().x + ":" + t.position().y);
+  ellipse(attractor.position().x, attractor.position().y, attractor.radius(), attractor.radius());  
 
   for (int i = 0; i < creatures.size (); i++) {
-    Creature c = creatures.get(i);
+    Blobs c = creatures.get(i);
     c.display();
   }
-  t.display();
+
+  //t.display(); // this call translates position for some reason
+  t.drawShape();
+  
+  // draw arrival
+  stroke(255, 255, 0);
+  fill(128);
+  ellipse(arrival.position().x, arrival.position().y, arrival.breakradius() * 2, arrival.breakradius() * 2);
+  noFill();
+
+  if(frameCount % 150 == 0) {
+    arrival.position().set((int)random(width),(int)random(height));
+  }
+  
 }
-
-
-
 
 
 void mousePressed() {

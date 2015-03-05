@@ -6,6 +6,8 @@ class Blobs extends Creature {
   }  
   
   public void draw_shape(){
+    stroke(255);
+    noFill();
     ellipse(0, 0, radius(), radius());  
   }
   
